@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>大阪・神戶七日行</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f3ede1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="關西行程">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700;900&family=Shippori+Mincho:wght@500;700;800&display=swap">
+<style>
+/* 和紙 + 藍染 + 朱 — a Japanese stationery feel. Mincho serif for headings and times, sans for body.
+   Indigo carries structure (lines, chips), vermilion marks only the important: stamps, warnings, the current day. */
+:root{
+  color-scheme: light;
+  --paper:#f3ede1; --paper2:#faf6ee; --sumi:#2a2622; --sumi2:#6d645a; --sumi3:#9d9488; --rule:#ddd2bf;
+  --ai:#24406b; --ai2:#3d5d8c; --ai-bg:#e3e8ef; --shu:#b8402f; --shu-bg:#f6e3dc; --kin:#a8834a;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mincho:"Shippori Mincho","Noto Serif TC","PingFang TC",serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--paper)}
+body{margin:0;color:var(--sumi);font-family:var(--sans);font-size:15px;line-height:1.7;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(76px + env(safe-area-inset-bottom,0px));
+  background-image:radial-gradient(rgba(120,100,70,.05) 1px,transparent 1px);background-size:5px 5px}
+button,input{font:inherit;color:inherit}
+a{color:inherit}
+.wrap{max-width:560px;margin:0 auto}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--shu);outline-offset:2px}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(250,246,238,.96);border-top:1px solid var(--rule);
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.nb{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11.5px;color:var(--sumi3);padding:4px 0;cursor:pointer}
+.nb svg{width:23px;height:23px}
+.nb[aria-current="page"]{color:var(--ai);font-weight:700}
+.nb[aria-current="page"] svg{color:var(--shu)}
+
+/* headings */
+.ttl{font-family:var(--mincho);font-weight:800;font-size:27px;margin:22px 18px 2px;letter-spacing:.06em;display:flex;align-items:center;gap:10px}
+.ttl::before{content:"";width:6px;height:24px;background:var(--shu);border-radius:1px}
+.lead{color:var(--sumi2);font-size:13.5px;margin:2px 18px 6px}
+.sec{font-family:var(--mincho);font-weight:700;font-size:19px;margin:24px 18px 8px;padding-bottom:6px;border-bottom:1px solid var(--rule);letter-spacing:.04em}
+
+/* paper card */
+.card{background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;margin:12px 18px;position:relative;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.card h3{font-family:var(--mincho);font-weight:700;font-size:17px;margin:0 0 8px;letter-spacing:.03em}
+.card.ai{border-left:4px solid var(--ai)}
+.card.shu{border-left:4px solid var(--shu);background:#fbf1ec}
+.small{font-size:13px;color:var(--sumi2)}
+.muted{color:var(--sumi2)}
+ul.li,ol.li{margin:0;padding-left:20px}
+ul.li li,ol.li li{margin:5px 0;font-size:14.5px}
+ol.li li::marker{font-family:var(--mincho);color:var(--ai);font-weight:700}
+b.shu,.shu-t{color:var(--shu)}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ai);border-radius:4px;background:transparent;color:var(--ai);padding:5px 12px;font-size:13.5px;font-weight:500;text-decoration:none;cursor:pointer;margin-top:8px}
+.btn.solid{background:var(--ai);color:#fff}
+.btn.shu{border-color:var(--shu);color:var(--shu)}
+.btn svg{width:15px;height:15px}
+.chip{display:inline-block;border:1px solid var(--ai2);color:var(--ai);border-radius:3px;font-size:11.5px;padding:0 6px;margin-left:6px;vertical-align:2px;line-height:1.6}
+.chip.shu{border-color:var(--shu);color:var(--shu)}
+
+/* hero */
+.hero{position:relative;background:var(--paper2);border-bottom:1px solid var(--rule)}
+.hero svg{display:block;width:100%;height:auto}
+.vt{position:absolute;top:16px;right:16px;display:flex;flex-direction:row-reverse;align-items:flex-start;gap:10px;color:var(--sumi)}
+.vt .col{display:flex;flex-direction:column;align-items:center;font-family:var(--mincho);font-weight:800;font-size:30px;line-height:1.08}
+.vt .col.s{font-size:13px;font-weight:700;color:var(--sumi2);line-height:1.35;margin-top:16px}
+.hanko{position:absolute;top:20px;left:18px;width:52px;height:52px;border:2.5px solid var(--shu);border-radius:6px;color:var(--shu);font-family:var(--mincho);font-weight:800;font-size:15px;line-height:1.05;display:grid;place-items:center;text-align:center;transform:rotate(-6deg);background:rgba(250,246,238,.7)}
+.hero-info{padding:14px 18px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.en{font-family:var(--mincho);letter-spacing:.32em;font-size:12px;color:var(--sumi2)}
+.dates{font-family:var(--mincho);font-weight:700;font-size:18px;letter-spacing:.08em}
+.cd{display:flex;gap:6px;align-items:flex-end}
+.cd .u{border:1px solid var(--rule);background:var(--paper);border-radius:4px;min-width:50px;text-align:center;padding:4px 6px}
+.cd .u b{display:block;font-family:var(--mincho);font-size:24px;font-weight:800;line-height:1.1;color:var(--ai)}
+.cd .u span{font-size:11px;color:var(--sumi2)}
+.cd .lb{font-size:12px;color:var(--sumi2);align-self:center;margin-right:2px}
+
+.fl{display:grid;grid-template-columns:auto 1fr auto 1fr;align-items:center;gap:6px;padding:10px 0}
+.fl+.fl{border-top:1px dashed var(--rule)}
+.fl .no{font-family:var(--mincho);font-weight:700;font-size:14px;color:#fff;background:var(--ai);border-radius:3px;padding:2px 6px;margin-right:4px}
+.fl .pt{font-size:12.5px;color:var(--sumi2);text-align:center}
+.fl .pt b{display:block;font-family:var(--mincho);font-size:22px;color:var(--sumi);font-weight:700}
+.fl .ar{color:var(--shu);font-size:18px}
+
+.dl{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;text-decoration:none;padding:10px 0;border-top:1px solid var(--rule)}
+.dl:first-of-type{border-top:0}
+.dl .k{font-family:var(--mincho);font-weight:800;color:var(--ai);font-size:15px;text-align:center;border:1px solid var(--ai);border-radius:3px;padding:2px 0;line-height:1.3}
+.dl .k small{display:block;font-size:11px;color:var(--sumi2);font-weight:500}
+.dl b{font-weight:500;font-size:15px;display:block}
+.dl span{font-size:12.5px;color:var(--sumi2)}
+.dl i{font-style:normal;color:var(--sumi3)}
+.dl.today .k{background:var(--shu);border-color:var(--shu);color:#fff}
+.dl.today .k small{color:#fff}
+
+/* day */
+.days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:14px 18px 4px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper)}
+.days::-webkit-scrollbar{display:none}
+.dp{flex:0 0 auto;border:1px solid var(--rule);background:var(--paper2);border-radius:4px;padding:4px 12px;cursor:pointer;text-align:center;font-family:var(--mincho);font-weight:700;font-size:14px;color:var(--sumi)}
+.dp small{display:block;font-family:var(--sans);font-weight:400;font-size:11px;color:var(--sumi2)}
+.dp[aria-selected="true"]{background:var(--ai);border-color:var(--ai);color:#fff}
+.dp[aria-selected="true"] small{color:#dfe6f0}
+.dhead{margin:16px 18px 0;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.dhead .stamp{width:64px;height:64px;border:2.5px solid var(--shu);border-radius:50%;color:var(--shu);display:grid;place-items:center;text-align:center;font-family:var(--mincho);font-weight:800;line-height:1.05;transform:rotate(-8deg)}
+.dhead .stamp b{font-size:24px;display:block}
+.dhead .stamp small{font-size:10.5px;letter-spacing:.1em}
+.dhead h1{font-family:var(--mincho);font-weight:800;font-size:22px;margin:0;line-height:1.35;letter-spacing:.03em}
+.dhead p{margin:2px 0 0;font-size:13px;color:var(--sumi2)}
+
+.tl{list-style:none;margin:14px 18px 0;padding:0}
+.tl li{display:grid;grid-template-columns:54px 1fr;gap:12px;position:relative;padding-bottom:16px}
+.tl li::before{content:"";position:absolute;left:66px;top:12px;bottom:0;width:1px;background:var(--ai2);opacity:.45}
+.tl li:last-child::before{display:none}
+.tl .t{font-family:var(--mincho);font-weight:700;font-size:16px;color:var(--ai);text-align:right;padding-top:1px}
+.tl .b{position:relative;padding-left:14px}
+.tl .b::before{content:"";position:absolute;left:-5px;top:9px;width:9px;height:9px;background:var(--paper);border:1.5px solid var(--ai);transform:rotate(45deg)}
+.tl li.mv .b::before{border-color:var(--sumi3)}
+.tl li.mv .n{color:var(--sumi2);font-weight:500}
+.tl .n{font-weight:700;font-size:15.5px;line-height:1.5}
+.tl .d{font-size:13.5px;color:var(--sumi2);margin-top:2px}
+
+.how{counter-reset:s;list-style:none;margin:0;padding:0}
+.how li{counter-increment:s;position:relative;padding:6px 0 6px 34px;font-size:14.5px;border-top:1px dashed var(--rule)}
+.how li:first-child{border-top:0}
+.how li::before{content:counter(s);position:absolute;left:0;top:8px;width:22px;height:22px;border-radius:50%;background:var(--ai);color:#fff;font-family:var(--mincho);font-weight:700;font-size:12.5px;display:grid;place-items:center}
+
+/* tools sub-nav */
+.sub{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:14px 18px 0}
+.sub::-webkit-scrollbar{display:none}
+.sub a{flex:0 0 auto;text-decoration:none;border:1px solid var(--rule);background:var(--paper2);border-radius:4px;padding:5px 14px;font-size:14px;color:var(--sumi2)}
+.sub a[aria-current="page"]{border-color:var(--ai);color:var(--ai);font-weight:700;background:var(--ai-bg)}
+
+/* guide */
+details.g{background:var(--paper2);border:1px solid var(--rule);border-radius:6px;margin:10px 18px}
+details.g summary{list-style:none;cursor:pointer;padding:13px 16px;font-family:var(--mincho);font-weight:700;font-size:16.5px;display:flex;align-items:center;gap:10px}
+details.g summary::-webkit-details-marker{display:none}
+details.g summary .no{font-size:12px;color:#fff;background:var(--ai);border-radius:3px;padding:0 6px;font-family:var(--sans)}
+details.g summary::after{content:"＋";margin-left:auto;color:var(--sumi3);font-family:var(--sans)}
+details.g[open] summary::after{content:"－"}
+details.g .gb{padding:0 16px 14px}
+.warn{background:var(--shu-bg);border-left:3px solid var(--shu);padding:8px 12px;margin:8px 0;font-size:14px;border-radius:0 4px 4px 0}
+.jp{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-top:1px dashed var(--rule)}
+.jp:first-child{border-top:0}
+.jp b{font-family:var(--mincho);font-size:17px;font-weight:700}
+.jp span{font-size:12.5px;color:var(--sumi2);grid-column:1}
+.jp em{font-style:normal;font-size:13.5px;grid-column:2;grid-row:1/3;align-self:center;text-align:right}
+
+/* tables, forms */
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+td,th{text-align:left;padding:7px 2px;border-top:1px solid var(--rule)}
+th{font-weight:500;color:var(--sumi2);font-size:13px;border-top:0}
+td.r,th.r{text-align:right;font-family:var(--mincho);font-weight:700;white-space:nowrap}
+.est td:first-child{white-space:nowrap}
+td.muted{white-space:nowrap;width:3.4em;vertical-align:top}
+tr.sum td{font-weight:700;border-top:1.5px solid var(--sumi)}
+.ck{display:flex;align-items:center;gap:12px;padding:6px 0;border-top:1px dashed var(--rule)}
+.ck:first-of-type{border-top:0}
+.ck input[type=checkbox]{width:20px;height:20px;accent-color:#24406b;flex:0 0 auto}
+.ck label{flex:1;font-size:15px}
+.ck.on label{color:var(--sumi3);text-decoration:line-through}
+.del{border:1px solid var(--rule);background:transparent;border-radius:3px;font-size:12px;padding:2px 10px;color:var(--sumi2);cursor:pointer}
+.addrow{display:flex;gap:8px;margin-top:10px;align-items:center}
+.addrow input{flex:1;min-width:0;border:1px solid var(--rule);background:#fff;border-radius:4px;padding:7px 10px;font-size:14.5px}
+.addrow button{border:0;background:var(--ai);color:#fff;border-radius:4px;padding:7px 14px;cursor:pointer}
+.wrow{display:grid;grid-template-columns:48px 70px 1fr;gap:6px;padding:8px 0;border-top:1px dashed var(--rule);font-size:14px}
+.wrow:first-of-type{border-top:0}
+.wrow .dt{font-family:var(--mincho);font-weight:700}
+.near{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 18px}
+.near a{display:block;text-align:center;background:var(--paper2);border:1px solid var(--ai2);color:var(--ai);border-radius:4px;padding:12px 4px;text-decoration:none;font-size:14.5px}
+.near a small{display:block;font-size:11px;color:var(--sumi3);font-family:var(--mincho)}
+.foot{color:var(--sumi3);font-size:12px;text-align:center;margin:22px 18px 0}
+
+@keyframes snow{from{transform:translateY(-10px)}to{transform:translateY(300px)}}
+.flake{animation:snow linear infinite}
+@keyframes drift{from{transform:translateX(-60px)}to{transform:translateX(460px)}}
+.cloud{animation:drift 40s linear infinite}
+@media (prefers-reduced-motion:reduce){.flake,.cloud{animation:none}}
+</style>
+</head>
+<body>
+<main class="wrap" id="view"></main>
+<nav class="nav" aria-label="主選單"><div class="in" id="nav"></div></nav>
+
+<script>
+(function(){
+/* ================= data ================= */
+const HOTEL_OSAKA="大阪府大阪市中央区東心斎橋1-8-21";
+const HOTEL_KOBE="兵庫県神戸市中央区下山手通2丁目3-1";
+const HOTELS={
+ osaka:{q:HOTEL_OSAKA,name:"Quintessa Hotel 大阪心齋橋 Comic&Books",short:"Comic&Books",dates:"1/9（六）– 1/13（三）・1 間 4 晚",room:"中型雙人房 15–16㎡・不含早",price:"約 NT$9,038",trip:"https://www.trip.com/w/cZKryMTjyW2",
+   jp:"〒542-0083 大阪府大阪市中央区東心斎橋1-8-21",cin:"1/9 15:00 後",cout:"1/13 11:00 前",cancel:"<b class=\"shu\">不可取消、不可修改，取消不退款。</b>",
+   tips:["大阪住宿稅每人每晚約 ¥200，入住時現場付。","1/13 退房後行李可以先寄放櫃台，逛完再回來拿。"]},
+ kobe:{q:HOTEL_KOBE,name:"皇家花園 Canvas 神戶三宮",short:"Canvas",dates:"1/13（三）– 1/15（五）・1 間 2 晚",room:"舒適雙人房 18–21㎡・不含早",price:"約 NT$4,432",trip:"https://www.trip.com/w/RH9GAwRjyW2",
+   jp:"〒650-0011 兵庫県神戸市中央区下山手通2丁目3-1",cin:"1/13 15:00–24:00",cout:"1/15 11:00 前",cancel:"2027/1/9 23:59 前<b>免費取消</b>，之後不可退款。",
+   tips:["1/13 中午先到櫃台寄放行李，15:00 後入住。","在生田神社附近，三宮站走路約 10 分鐘。"]}
+};
+const KN=["一","二","三","四","五","六","七"];
+
+const DAYS=[
+ {id:"day-1",d:"1/9",w:"六",stay:"osaka",area:"高雄 → 神戶機場 → 大阪心齋橋",title:"抵達・黑門市場、道頓堀",
+  stops:[
+   {t:"06:00",n:"到小港機場國際線航廈",note:"起飛前 2.5 小時到。流程看「攻略 › 出境」。",nav:false,mv:true},
+   {t:"08:25",n:"JX360 起飛",chip:"飛機",note:"飛行約 2 小時 50 分。",nav:false,mv:true},
+   {t:"12:15",n:"抵達神戶機場 第 2 航廈・入境",q:"神戸空港 第2ターミナル",note:"入境審查 → 領行李 → 海關，約 45 分鐘。",nav:false},
+   {t:"13:15",n:"巴士「なにわマリンエアエクスプレス」→ 心齋橋",chip:"巴士",q:"心斎橋 長堀通",note:"¥1,000，不用預約、先到先坐，14:16 到心齋橋（長堀通）。趕不上就搭 14:35（15:36 到）。準備 ¥1,000 現金。",nav:false,mv:true},
+   {t:"14:20",n:"Comic&Books 寄放行李",q:HOTEL_OSAKA,note:"下車處走約 5 分鐘。15:00 後才能入住，先寄行李。",mode:"walking"},
+   {t:"14:45",n:"黑門市場：魚豊 鰻魚飯",q:"鮮魚 魚豊 黒門市場",note:"炭烤鰻魚飯約 ¥2,000–3,000。<b class=\"shu\">16:30 關、週日休</b>，所以排今天。",mode:"walking"},
+   {t:"15:15",n:"SHIKI 抹茶（黑門市場內）",q:"SHIKI JAPANESE TEA 日本橋",note:"抹茶拿鐵，17:00 關。",mode:"walking"},
+   {t:"15:45",n:"AUN COFFEE ROASTERS",q:"AUN COFFEE ROASTERS 元町",note:"自家烘焙咖啡＋提拉米蘇，19:00 關。就在難波八阪神社對面，順便看巨大的獅子殿。",mode:"walking"},
+   {t:"16:45",n:"法善寺橫丁",q:"法善寺横丁",note:"石板小巷、長滿青苔的不動明王，用水澆一下再拜。",mode:"walking"},
+   {t:"17:15",n:"道頓堀・固力果看板",q:"グリコサイン 道頓堀",note:"在戎橋上拍固力果跑跑人；天黑後燈全亮最好看。",mode:"walking"},
+   {t:"18:00",n:"心齋橋筋購物",q:"ドン・キホーテ 道頓堀店",note:"唐吉訶德、大國藥妝、松本清、大丸、GU。帶護照；同店滿 ¥5,000（未稅）可退稅，明細 QR Code 收好。",mode:"walking"},
+   {t:"20:00",n:"晚餐：麺や Kotetsu（こてつ家）",q:"麺や Kotetsu 難波店",note:"雞白湯拉麵，只有 8 個座位常排隊。17:00 開到半夜 3:00。",mode:"walking"}],
+  how:["下飛機跟著「Arrivals／入国審査」指標走，排「外國人 Foreign Passports」隊伍，領行李、過海關。",
+   "出來找巴士站，搭「なにわマリンエアエクスプレス」往心斎橋・あべの橋。<b class=\"shu\">在「心斎橋（長堀通）」下車</b>，不要坐到終點あべの橋。",
+   "下車處在長堀通北側、Lawson 旁邊；過馬路往東南走約 5 分鐘到飯店。",
+   "飯店 → 黑門市場走約 10 分鐘；黑門 → AUN COFFEE 約 15 分鐘；AUN → 法善寺、道頓堀約 10 分鐘，全部走路。",
+   "巴士閃失的備案：走 3 分鐘到第 1 航廈 2 樓搭 Port Liner 到「三宮」，換阪神「快速急行（近鉄奈良行き）」到「大阪難波」，約 1.5 小時。<b class=\"shu\">不要搭「直通特急」，那班開往梅田。</b>"],
+  food:[{n:"鮮魚 魚豊",s:"黑門市場炭烤鰻魚飯・約 ¥2,000–3,000・9:00–16:30、週日休",q:"鮮魚 魚豊 黒門市場",k:"鰻魚"},{n:"SHIKI JAPANESE TEA",s:"抹茶拿鐵・黑門市場・9:00–17:00",q:"SHIKI JAPANESE TEA 日本橋",k:"抹茶"},{n:"AUN COFFEE ROASTERS",s:"自家烘焙咖啡・9:00–19:00",q:"AUN COFFEE ROASTERS 元町",k:"咖啡"},{n:"麺や Kotetsu 難波店",s:"拉麵・約 ¥1,000–2,000・17:00–03:00",q:"麺や Kotetsu 難波店",k:"拉麵"}],
+  note:["13:15 的巴士有點趕：趕不上就搭 14:35，到飯店放完行李直接去魚豊（16:30 關）。","第一天別逛太晚，隔天 9 點要出門。","藥妝價差可達 10–20%，同樣東西多比兩間。"],
+  rain:"心齋橋筋商店街有屋頂照逛；道頓堀改成難波高島屋、Namba Parks、難波地下街。"},
+
+ {id:"day-2",d:"1/10",w:"日",stay:"osaka",area:"大阪城・中津・新世界・阿倍野・難波",title:"大阪城＋HARUKAS 夜景＋燒肉",
+  stops:[
+   {t:"09:00",n:"大阪城天守閣",q:"大阪城天守閣",note:"成人 ¥1,200，9:00–18:00。從車站到天守閣還要走 15–20 分鐘。",mode:"transit"},
+   {t:"12:00",n:"午餐：New Babe 豊崎（炸豬排）",chip:"地鐵",q:"とんかつニューベイブ 豊崎",note:"約 ¥3,000–4,000，11:00–19:30，常客滿，<b class=\"shu\">建議先訂位</b>。",mode:"transit"},
+   {t:"14:00",n:"新世界・通天閣",chip:"地鐵",q:"通天閣",note:"串炸老街，順便坐下休息。",mode:"transit"},
+   {t:"16:00",n:"天王寺公園・Q's Mall",q:"あべのキューズモール",note:"新世界走約 15 分鐘。",mode:"walking"},
+   {t:"16:45",n:"阿倍野 HARUKAS 300",q:"あべのハルカス展望台 ハルカス300",note:"成人 ¥2,000。1 月日落約 17:10，夕陽轉夜景一次看。入口在 16 樓，搭電梯上去買票。",mode:"walking"},
+   {t:"19:00",n:"晚餐：炭火燒肉 南一園",chip:"地鐵",q:"炭火焼肉 南一園",note:"自己用炭火烤，和牛套餐約 ¥3,000 起，座位很少。週日 12:00–22:00、<b class=\"shu\">週一公休</b>，所以排今天。",mode:"transit"},
+   {t:"21:00",n:"走回飯店",q:HOTEL_OSAKA,note:"難波走約 15 分鐘。",mode:"walking",mv:true}],
+  how:["去大阪城：用 Google Maps 導航「大阪城天守閣」，常見是坐地鐵到「谷町四丁目」或「森ノ宮」再走 15–20 分鐘。",
+   "大阪城 → New Babe：用 Google Maps 導航，在地鐵御堂筋線「中津」站下車走約 5 分鐘。",
+   "New Babe → 新世界：「中津」搭御堂筋線往「なかもず」方向，直達「動物園前」站，約 15 分鐘。",
+   "新世界 → HARUKAS：走路約 15 分鐘，就在天王寺站旁邊的最高大樓。",
+   "HARUKAS → 南一園：「天王寺」搭御堂筋線往「新大阪」方向到「なんば」，走約 5 分鐘。"],
+  food:[{n:"New Babe 豊崎",s:"炸豬排・約 ¥3,000–4,000・11:00–19:30",q:"とんかつニューベイブ 豊崎",k:"炸豬排"},{n:"炭火燒肉 南一園",s:"和牛燒肉・約 ¥3,000–7,000・週一休",q:"炭火焼肉 南一園",k:"燒肉"},{n:"かわち屋 新世界",s:"串炸・下午點心",q:"かわち屋 新世界",k:"串炸"}],
+  note:["串炸醬汁是共用的，<b class=\"shu\">只能沾一次</b>，咬過的不能再沾；要加醬用高麗菜舀。","大阪城公園很大，穿好走的鞋。"],
+  rain:"天守閣在室內，黑門市場和新世界大多有遮雨；夜景看不清楚就逛 HARUKAS 近鐵百貨和 Q's Mall。"},
+
+ {id:"day-3",d:"1/11",w:"一",stay:"osaka",area:"京都一日遊 → 晚上梅田",title:"伏見稻荷・清水寺・藍瓶咖啡・梅田壽喜燒",
+  stops:[
+   {t:"07:30",n:"心齋橋 → 淀屋橋 → 京阪電車",chip:"電車",q:"伏見稲荷駅",note:"約 1 小時。",mode:"transit",mv:true},
+   {t:"08:30",n:"伏見稻荷大社 千本鳥居",q:"伏見稲荷大社",note:"越早人越少。只走千本鳥居往返約 45 分鐘，不必爬到山頂。",mode:"walking"},
+   {t:"10:30",n:"清水寺・二年坂・三年坂",chip:"電車",q:"清水寺",note:"本堂參拜 ¥500。坂道人很多，背包背前面。",mode:"transit"},
+   {t:"11:30",n:"GOKAGO 抹茶",q:"GOKAGO 清水 京都",note:"清水寺旁，10:30 開，現場刷抹茶給你看，常排隊。",mode:"walking"},
+   {t:"12:15",n:"祇園午餐・八坂神社・花見小路",q:"八坂神社",note:"花見小路禁止拍舞妓、禁止進私人巷弄。",mode:"walking"},
+   {t:"14:00",n:"藍瓶咖啡 京都店",q:"ブルーボトルコーヒー 京都カフェ",note:"南禪寺旁的老町家咖啡廳，8:00–18:00。八坂神社過去搭計程車約 10 分鐘，或走 25 分鐘。",mode:"transit"},
+   {t:"15:15",n:"錦市場",q:"錦市場",note:"17:00 前後陸續收；市場內<b class=\"shu\">禁止邊走邊吃</b>，在店門口吃完。",mode:"transit"},
+   {t:"16:30",n:"鴨川・河原町",q:"四条大橋",mode:"walking"},
+   {t:"17:00",n:"阪急 京都河原町 → 大阪梅田",chip:"電車",q:"大阪梅田駅 阪急",note:"特急約 45 分鐘，¥410。",mode:"transit",mv:true},
+   {t:"18:00",n:"晚餐：モリタ屋 壽喜燒",q:"モリタ屋 ルクアイーレ店",note:"大阪站 LUCUA 1100 10 樓。和牛壽喜燒，每人約 ¥10,000 起。<b class=\"shu\">一定要先上網訂位</b>，不然可能等 2 小時。",mode:"walking"},
+   {t:"20:00",n:"サッポロ黒ラベル THE BAR",q:"サッポロ生ビール黒ラベル THE BAR OSAKA",note:"LINKS UMEDA 1 樓的站著喝啤酒吧，每人限 2 杯，營業到 23:00。",mode:"walking"},
+   {t:"21:00",n:"回飯店",chip:"地鐵",q:HOTEL_OSAKA,note:"「梅田」搭御堂筋線往「なかもず」到「心斎橋」，約 10 分鐘。",mode:"transit",mv:true}],
+  how:["心齋橋站搭御堂筋線往「新大阪」方向，到「淀屋橋」（4 站）。",
+   "出站跟著「京阪電車」指標，在淀屋橋站搭往「出町柳」方向。<b class=\"shu\">伏見稻荷站特急不停</b>，照 Google Maps 指示搭慢車，或在中途站換普通車。",
+   "「伏見稲荷」站出站，過平交道走 5 分鐘就到大社門口。",
+   "回到伏見稲荷站，往「出町柳」方向坐到「清水五条」，再走約 20 分鐘上坡到清水寺。",
+   "清水寺 → GOKAGO（清水坂上）→ 二年坂 → 八坂神社 → 祇園，全部走路。",
+   "八坂神社 → 藍瓶咖啡：累了就在路邊招計程車，給司機看「ブルーボトルコーヒー京都カフェ」，約 ¥1,200；或照 Google Maps 走 25 分鐘。",
+   "藍瓶咖啡 → 錦市場：走到地鐵東西線「蹴上」站，坐到「京都市役所前」，再走 10 分鐘；或搭計程車約 15 分鐘。",
+   "回大阪：「京都河原町」站是阪急的起點，搭「特急 大阪梅田行き」約 45 分鐘，不用加價。",
+   "「大阪梅田」出站後用 Google Maps 走到「LUCUA 1100」（JR 大阪站旁），搭電梯到 10 樓。",
+   "回飯店：跟著「地下鉄 御堂筋線」指標到「梅田」站，往「なかもず」方向到「心斎橋」。"],
+  food:[{n:"GOKAGO 日本茶",s:"濃厚宇治抹茶拿鐵・10:30–18:00",q:"GOKAGO 清水 京都",k:"抹茶"},{n:"藍瓶咖啡 京都店",s:"南禪寺旁町家咖啡・8:00–18:00",q:"ブルーボトルコーヒー 京都カフェ",k:"咖啡"},{n:"錦市場小吃",s:"玉子燒、豆乳甜甜圈、京漬物",q:"錦市場",k:"市場"},{n:"モリタ屋 ルクアイーレ店",s:"和牛壽喜燒・約 ¥10,000 起・要訂位",q:"モリタ屋 ルクアイーレ店",k:"壽喜燒"},{n:"サッポロ黒ラベル THE BAR OSAKA",s:"站著喝的啤酒吧・11:00–23:00",q:"サッポロ生ビール黒ラベル THE BAR OSAKA",k:"啤酒"}],
+  note:["這天是日本連假最後一天，京都人最多；7:30 一定要出門。","走路量最大的一天，到藍瓶咖啡那段累了就搭計程車。","モリタ屋先上網訂 1/11 18:00。"],
+  rain:"錦市場有屋頂照逛；清水寺、祇園少走一點，改逛京都高島屋和京都車站大樓。"},
+
+ {id:"day-4",d:"1/12",w:"二",stay:"osaka",area:"奈良一日遊",title:"奈良公園・東大寺・春日大社",
+  stops:[
+   {t:"07:45",n:"早餐：星巴克 難波御堂筋 Grand 大樓店",q:"スターバックス なんば御堂筋グランドビル店",note:"平日 7:30 開，吃完走到大阪難波站。",mode:"walking"},
+   {t:"08:30",n:"大阪難波 → 近鐵奈良",chip:"電車",q:"近鉄奈良駅",note:"約 40 分鐘、¥680。",mode:"transit",mv:true},
+   {t:"09:30",n:"興福寺",q:"興福寺",note:"境內免費。五重塔大修理中（2023–2031）整座罩起來。",mode:"walking"},
+   {t:"10:00",n:"奈良公園餵鹿",q:"奈良公園",note:"鹿仙貝 ¥200。鹿會頂人、咬紙袋；餵完雙手攤開表示沒了。",mode:"walking"},
+   {t:"10:45",n:"東大寺 大佛殿",q:"東大寺 大仏殿",note:"¥800。先看南大門兩尊金剛力士像。",mode:"walking"},
+   {t:"12:00",n:"午餐：釜飯或柿葉壽司",q:"志津香 公園店",note:"志津香常排隊，先登記名字再去附近逛。",mode:"walking"},
+   {t:"13:15",n:"春日大社",q:"春日大社",note:"境內免費，本殿前特別參拜 ¥700。參道約 3,000 座石燈籠。",mode:"walking"},
+   {t:"14:45",n:"奈良町老街",q:"ならまち",note:"町家老街、雜貨小店，邊逛邊往車站走。",mode:"walking"},
+   {t:"15:45",n:"中谷堂 搗麻糬",q:"中谷堂",note:"看高速搗麻糬，艾草麻糬一顆約 ¥200。",mode:"walking"},
+   {t:"16:15",n:"近鐵奈良 → 大阪難波",chip:"電車",q:"大阪難波駅",note:"約 40 分鐘、¥680。",mode:"transit",mv:true},
+   {t:"17:00",n:"晚餐：なにわ麺次郎（站內）",q:"なにわ麺次郎",note:"金色蛤蜊拉麵，米其林推薦。<b class=\"shu\">在近鐵大阪難波站剪票口裡面（B2），從奈良回來先別出站</b>。只收現金。",nav:false},
+   {t:"18:00",n:"弁才天 水果大福",q:"覚王山フルーツ大福 弁才天 なんば店",note:"千日前，整顆水果包進麻糬，一顆約 ¥600–900，開到 22:30。",mode:"walking"},
+   {t:"18:30",n:"道頓堀夜景散步",q:"道頓堀",mode:"walking"},
+   {t:"20:00",n:"宵夜：炭火焼き鳥 鴨尽",q:"炭火焼き鳥 鴨尽",note:"炭烤串燒，17:00–02:00，<b class=\"shu\">建議先訂位</b>。評價說雞肉串比鴨肉好吃。",mode:"walking"}],
+  how:["走到「大阪難波」站的近鐵月台（地下），或附近的「近鉄日本橋」站。",
+   "搭「快速急行」或「急行」往「近鉄奈良」，約 40 分鐘。<b class=\"shu\">不要上「特急」，那要另外買特急券。</b>",
+   "「近鉄奈良」是終點站，出站往東走：興福寺 → 奈良公園 → 東大寺，都在 15 分鐘步行範圍。",
+   "東大寺 → 春日大社：沿著石燈籠參道走約 20 分鐘。",
+   "回程同一條線坐回「大阪難波」。<b class=\"shu\">先別出剁票口</b>，跟著「ごちぶらナンバ」指標到 B2 的なにわ麺次郎。",
+   "吃完出站，走到千日前的弁才天（5 分鐘），再逛道頓堀；鴨尽也在千日前，走 5 分鐘。"],
+  food:[{n:"志津香 釜飯",s:"約 ¥1,500–2,500，東大寺附近",q:"志津香 公園店",k:"釜飯"},{n:"なにわ麺次郎",s:"金色蛤蜊拉麵・約 ¥1,000–2,000・站內、只收現金",q:"なにわ麺次郎",k:"拉麵"},{n:"弁才天 水果大福",s:"一顆約 ¥600–900・10:00–22:30",q:"覚王山フルーツ大福 弁才天 なんば店",k:"甜點"},{n:"炭火焼き鳥 鴨尽",s:"串燒・約 ¥2,000–6,000・17:00–02:00",q:"炭火焼き鳥 鴨尽",k:"串燒"},{n:"星巴克 難波御堂筋 Grand 大樓店",s:"早餐・7:30 開",q:"スターバックス なんば御堂筋グランドビル店",k:"咖啡"},{n:"中谷堂 艾草麻糬",s:"約 ¥200",q:"中谷堂",k:"甜點"}],
+  note:["地圖、車票、塑膠袋收好，鹿會搶。","奈良比大阪冷，帶手套、圍巾。"],
+  rain:"以東大寺大佛殿、興福寺國寶館（室內）為主，春日大社走參道就好。"},
+
+ {id:"day-5",d:"1/13",w:"三",stay:"kobe",area:"大阪 → 神戶三宮",title:"北野・南京町・港灣夜景",
+  stops:[
+   {t:"08:45",n:"退房・行李寄放櫃台",q:HOTEL_OSAKA,note:"<b class=\"shu\">先退房</b>（11:00 前要退），行李寄放櫃台，中午再回來拿。",nav:false},
+   {t:"09:00",n:"麦と麺助 排隊",chip:"地鐵",q:"麦と麺助",note:"大阪拉麵排名第一的名店，11:00 開，<b class=\"shu\">開店前 1.5–2 小時就要排</b>；週二公休，今天週三有開。用食券機點餐，一碗約 ¥1,700。",mode:"transit"},
+   {t:"11:45",n:"回飯店拿行李",chip:"地鐵",q:HOTEL_OSAKA,note:"「中津」搭御堂筋線到「心斎橋」。",mode:"transit"},
+   {t:"12:30",n:"阪神 大阪難波 → 神戶三宮",chip:"電車",q:HOTEL_KOBE,note:"約 40 分鐘、約 ¥450，到 Canvas 寄放行李。",mode:"transit",mv:true},
+   {t:"13:45",n:"北野異人館街",q:"風見鶏の館",note:"風見雞之館、萌黃之館。往山上走 15 分鐘，一路上坡。",mode:"walking"},
+   {t:"15:30",n:"生田神社",q:"生田神社",mode:"walking"},
+   {t:"16:00",n:"神戶港遊船",chip:"船",q:"中突堤 神戸港遊覧船乗り場",note:"約 45 分鐘繞港。冬季末班出發前查 cruise-kobe.com，趕不上就跳過。",mode:"transit"},
+   {t:"17:00",n:"南京町",q:"南京町",mode:"walking"},
+   {t:"18:00",n:"美利堅公園・神戶港塔・Harborland",q:"メリケンパーク",note:"港灣夜景，晚餐在 umie。",mode:"walking"}],
+  how:["飯店 → 麦と麺助：走到地鐵「心斎橋」站，搭御堂筋線往「新大阪」方向到「中津」，走約 5 分鐘。到了先照店門口的指示排隊。",
+   "吃完原路回心齋橋拿行李，再走到「大阪難波」站。",
+   "「大阪難波」站搭阪神「快速急行」往「神戸三宮」，約 40 分鐘。",
+   "「神戸三宮」出站，用 Google Maps 走到 Canvas 寄放行李（約 10 分鐘）。",
+   "北野異人館：三宮往北上坡走 15 分鐘；回程下坡經過生田神社。",
+   "生田神社 → 中突堤（港塔旁）：走約 20 分鐘，或地鐵海岸線「三宮・花時計前 → みなと元町」。",
+   "中突堤 → 南京町 → 美利堅公園 → Harborland：全部走路，各 10 分鐘內。",
+   "回飯店：Harborland 旁 JR「神戸」站搭到「三ノ宮」2 站，再走回 Canvas。"],
+  food:[{n:"麦と麺助",s:"大阪人氣第一拉麵・約 ¥1,700・週二休、排隊 1.5–2 小時",q:"麦と麺助",k:"拉麵"},{n:"老祥記",s:"豚饅・一個約 ¥100，常排隊",q:"老祥記",k:"包子"},{n:"Harborland umie",s:"百貨餐廳・約 ¥1,500–2,500",q:"umie 神戸ハーバーランド",k:"百貨"},{n:"三宮甜點、麵包",s:"約 ¥500–1,000",q:"三宮 ケーキ",k:"甜點"}],
+  note:["拖行李走北野坡很累，一定先寄放在 Canvas。"],
+  rain:"北野坡道下雨會滑，改去 Harborland umie、神戶港塔；或搭阪神到住吉逛灘五鄉酒藏。"},
+
+ {id:"day-6",d:"1/14",w:"四",stay:"kobe",area:"三田 → 神戶",title:"三田 Outlet・神戶牛・市役所夜景",
+  stops:[
+   {t:"09:15",n:"神姬巴士 三宮 → Outlet",chip:"巴士",q:"神戸三田プレミアム・アウトレット",note:"約 50 分鐘。",mode:"transit",mv:true},
+   {t:"10:10",n:"神戶三田 Premium Outlet",q:"神戸三田プレミアム・アウトレット",note:"先到服務台拿樓層圖，問有沒有外國旅客優惠券（帶護照）。午餐在美食街。",nav:false},
+   {t:"14:30",n:"巴士回三宮・飯店放東西",chip:"巴士",q:HOTEL_KOBE,mode:"transit",mv:true},
+   {t:"16:30",n:"神戶牛鐵板燒",q:"神戸ビーフ 鉄板焼 三宮",note:"每人約 ¥10,000–15,000，要先訂位。認明「神戸ビーフ」認證。",mode:"walking"},
+   {t:"18:15",n:"神戶市役所 24 樓展望大廳",q:"神戸市役所 1号館 24階 展望ロビー",note:"免費夜景。開放時間出發前確認。",mode:"walking"},
+   {t:"19:15",n:"三宮中心街・元町商店街",q:"三宮センター街",note:"最後補買伴手禮。",mode:"walking"}],
+  how:["到三宮的「神戸三宮バスターミナル」（ミント神戸 1 樓），找往「神戸三田プレミアム・アウトレット」的神姬巴士。",
+   "上車刷西瓜卡、下車再刷一次。<b class=\"shu\">巴士上不能儲值</b>，前一天先儲好。",
+   "回程在 Outlet 同一個站牌搭往三宮的巴士。",
+   "市役所：三宮站往南走 10 分鐘，1 號館搭電梯到 24 樓。"],
+  food:[{n:"神戶牛鐵板燒",s:"約 ¥10,000–15,000／午間套餐約 ¥4,000–7,000",q:"神戸ビーフ 鉄板焼 三宮",k:"神戶牛"},{n:"神戶牛可樂餅、漢堡排",s:"預算版・約 ¥1,500–2,500",q:"神戸牛 ハンバーグ 三宮",k:"神戶牛"}],
+  note:["摩耶山纜車每年 1 月中起年檢停駛，所以夜景排市役所。出發前查 koberope.jp，有營運的話可以改上掬星台（帶現金）。","今晚整理行李：退稅品集中放一袋、明細收好；化妝品零食別拆。明天在機場要先退稅確認再託運。"],
+  rain:"大雨改逛 Harborland umie、三宮地下街；也可以整天改去姬路城或須磨海洋世界。"},
+
+ {id:"day-7",d:"1/15",w:"五",stay:null,area:"神戶 → 高雄",title:"舊居留地・返程",
+  stops:[
+   {t:"08:30",n:"元町・舊居留地早餐散步",q:"旧居留地 神戸",note:"麵包店早餐。",mode:"walking"},
+   {t:"10:00",n:"回 Canvas 退房",q:HOTEL_KOBE,mode:"walking"},
+   {t:"10:45",n:"Port Liner 三宮 → 神戶機場",chip:"電車",q:"神戸空港 第2ターミナル",note:"約 18 分鐘、¥340。",mode:"transit",mv:true},
+   {t:"11:15",n:"第 2 航廈：先退稅確認，再報到",q:"神戸空港 第2ターミナル",note:"起飛前 2 小時到。<b class=\"shu\">先到免稅機台掃護照，再去託運</b>。流程看「攻略 › 退稅」。",nav:false},
+   {t:"13:15",n:"JX361 起飛 → 16:00 高雄",chip:"飛機",nav:false,mv:true}],
+  how:["三宮站搭 Port Liner，<b class=\"shu\">看清楚是「神戸空港」行</b>，有些車只到「北埠頭」。",
+   "「神戸空港」站下車，走約 3 分鐘到第 2 航廈（國際線）。",
+   "<b class=\"shu\">先退稅、後託運</b>：到出發大廳的免稅手續機台掃護照。綠色就完成；紅色就到海關把退稅品拿給他們看。",
+   "再到星宇櫃台報到、託運行李。",
+   "安檢 → 出境審查 → 登機門。"],
+  food:[{n:"元町・舊居留地麵包店",s:"早餐",q:"元町 パン屋",k:"麵包"}],
+  note:["日本的肉製品（肉乾、香腸、肉鬆、含肉泡麵）<b class=\"shu\">不能帶回台灣</b>，罰很重。","日幣留一點，不要提早花光。"],
+  rain:"舊居留地改逛三宮地下街 Santica 和元町商店街（有屋頂）。"}
+];
+
+const GUIDE=[
+ {t:"出發前 2 週要做的事",b:`<ol class="li">
+  <li><b>護照</b>：確認效期涵蓋整趟旅程（建議還有 6 個月以上）。台灣護照去日本 90 天內免簽。</li>
+  <li><b>Visit Japan Web</b>：上官網 vjw.digital.go.jp 註冊，填護照、航班（JX360）、住宿（Comic&Books 地址），兩個人要分別登錄或用「同行家人」。完成後會拿到<b>一個 QR Code</b>，入境審查和海關都用它。截圖存起來。</li>
+  <li><b>網路</b>：買日本 eSIM 或 Wi-Fi 機，出發前裝好，落地再開。</li>
+  <li><b>西瓜卡</b>：iPhone 錢包裡的 Suica 先用 Apple Pay 儲值 ¥3,000–5,000 試試看。</li>
+  <li><b>錢</b>：每人換 ¥30,000–40,000 現金；信用卡打電話或用 App 開好海外刷卡。</li>
+  <li><b>保險</b>：旅平險＋旅遊不便險（班機延誤、行李遺失）。</li>
+  <li><b>訂位</b>：神戶牛鐵板燒（1/14 傍晚）先訂好。</li>
+  <li><b>App</b>：Google Maps、Google 翻譯（下載日文離線包）、航空公司 App。</li></ol>`},
+ {t:"打包規定",b:`<ul class="li">
+  <li><b>行動電源、鋰電池只能放隨身行李</b>，不能託運。</li>
+  <li>隨身行李的液體每瓶 100ml 以下，裝進一個透明夾鏈袋。超過的放託運。</li>
+  <li>刀、剪刀放託運。</li>
+  <li>日本插座跟台灣一樣（A 型、100V），手機、筆電充電器可以直接用。</li>
+  <li><b class="shu">肉製品不能帶進日本</b>（肉乾、香腸、肉鬆、含肉泡麵），水果也不行。</li>
+  <li>自己吃的常備藥可以帶，放原包裝。</li>
+  <li>託運行李重量看電子機票上寫的額度，回程會多買東西，去程留空間。</li></ul>`},
+ {t:"出境：高雄小港機場",b:`<ol class="li">
+  <li>起飛前 <b>2.5 小時</b>到國際線航廈（08:25 起飛 → 06:00 前到）。</li>
+  <li>星宇櫃台報到：給護照，託運大行李，拿登機證。</li>
+  <li>安檢：外套、筆電、行動電源、液體袋拿出來放籃子。</li>
+  <li>出境證照查驗：排隊給護照。想更快可以先在機場臨櫃註冊「自動通關」。</li>
+  <li>看登機證上的<b>登機門和登機時間</b>，提早 30 分鐘到登機門。</li></ol>`},
+ {t:"入境：神戶機場（第 2 航廈）",b:`<ol class="li">
+  <li>下飛機跟著「Arrivals／入国審査」走。</li>
+  <li><b>入境審查</b>：排「外國人」隊伍，給護照＋Visit Japan Web QR Code，機器拍照、按兩隻食指指紋。護照會貼一張上陸許可貼紙，不要撕。</li>
+  <li><b>領行李</b>：看螢幕上 JX360 的轉盤號碼。</li>
+  <li><b>海關</b>：出示同一個 QR Code，沒有要申報的就直接走。</li>
+  <li>出來後走約 3 分鐘到第 1 航廈 2 樓搭 Port Liner（也有免費接駁車）。</li></ol>
+  <div class="warn">沒填 Visit Japan Web 也能入境，但要在現場填紙本表格，會花比較久。</div>`},
+ {t:"搭電車（最重要）",b:`<ul class="li">
+  <li><b>進站、出站都要刷西瓜卡</b>，刷卡處在閘門右手邊。</li>
+  <li>大阪的電車分很多家公司：JR、地鐵、阪神、阪急、近鐵、京阪。<b>不同公司的車站是分開的</b>，轉乘要出站走一段，跟著指標找公司名字。</li>
+  <li>月台看兩件事：<b>①「行き」= 終點站</b>（決定方向）<b>② 車種</b>：普通（每站停）＜準急＜急行＜快速急行＜特急（停最少站）。Google Maps 會寫要搭哪一種、幾號月台。</li>
+  <li class="shu-t"><b>近鐵「特急」要另外買特急券</b>，1/12 去奈良搭「快速急行」或「急行」就好。阪神、阪急、京阪的特急不用加錢。</li>
+  <li>餘額不夠出不了站：閘門旁邊的黃色「のりこし精算」機，放卡補錢再出站。</li>
+  <li>電扶梯：大阪<b>站右邊</b>、京都<b>站左邊</b>，另一邊讓人走。</li>
+  <li>車上不講電話、小聲說話；早上尖峰有「女性專用車廂」，男生不要上。</li>
+  <li>坐過頭不用緊張，出站時多扣的錢會自動算。</li></ul>`},
+ {t:"錢、刷卡、ATM",b:`<ul class="li">
+  <li>大部分店可以刷卡；<b>神社門票、市場小攤、拉麵食券機常常只收現金</b>。</li>
+  <li>現金不夠：7-Eleven 的 ATM 可以用台灣的金融卡提款（出發前跟銀行確認有開通「跨國提款」）。</li>
+  <li>日本不用給小費。</li>
+  <li>刷卡時店員問「一括（いっかつ）でよろしいですか」= 一次付清，回答「はい」。</li></ul>`},
+ {t:"退稅（2026/11 新制）",b:`<div class="warn">2026/11/1 起：店裡<b>先付含稅價</b>，出境時在機場給海關確認後，<b>再退錢給你</b>。</div>
+  <p style="margin:10px 0 4px"><b>在店裡（藥妝、唐吉訶德、Bic Camera）</b></p>
+  <ol class="li">
+  <li>同一間店當天買滿 ¥5,000（未稅）才能退。結帳時到<b>指定退稅櫃台</b>，給護照，說「免税でお願いします」。</li>
+  <li>現在<b>不會再封進免稅袋</b>，店員給一般塑膠袋；買多的話可以加買大袋子。</li>
+  <li><b class="shu">化妝品、零食、藥品出境前不要拆來用</b>，用了就不能退。整張收據裡少一件，整張都不能退。</li>
+  <li>店員會給一張<b>有 QR Code 的明細</b>，<b>收好</b>，回程要用來登記退款。</li></ol>
+  <p style="margin:10px 0 4px"><b>選退款方式</b></p>
+  <ul class="li">
+  <li><b>退到信用卡（建議）</b>：掃明細上的 QR Code，到退款公司網站（例如 J Tax Refund）填信用卡。不用當場掃，回飯店或回台灣後再填都可以，期限看明細說明。</li>
+  <li><b>機場退現金</b>：手續費比較高；神戶機場有沒有退現金機台，出發前要再確認。</li>
+  <li>各店退款公司不同、手續費不同；唐吉訶德、Bic Camera 宣布不收手續費，札幌藥妝用等值折扣補回手續費。</li></ul>
+  <p style="margin:10px 0 4px"><b>在機場（1/15 神戶機場第 2 航廈）</b></p>
+  <ol class="li">
+  <li><b class="shu">一定要在報到託運行李之前辦</b>：到出發大廳的「免稅手續機台（キオスク）」掃護照。</li>
+  <li>畫面顯示<b>綠色</b> = 完成，可以去報到；顯示<b>紅色</b> = 到海關檢查處，把退稅品拿出來給他們看。</li>
+  <li>所以<b>退稅品集中放一個袋子</b>，紅色時才拿得出來。</li>
+  <li>完成後，退款公司才會把稅金退到你登記的信用卡。</li></ol>
+  <p class="small">購買日起 90 天內出境才能退。我們買的東西 1/15 就出境，沒問題。</p>`},
+ {t:"吃飯",b:`<ul class="li">
+  <li>拉麵、丼飯店門口常有<b>食券機</b>：先投錢買票，把票交給店員。</li>
+  <li>熱門店要排隊，排在最後面，不要插隊。</li>
+  <li>坐下後店員會給免費的水或茶。</li>
+  <li>結帳在門口櫃台，不是在座位上。</li>
+  <li>便利商店買便當可以請店員微波（「温めてください」）。</li>
+  <li>垃圾桶很少，身上帶一個塑膠袋裝垃圾。</li></ul>`},
+ {t:"禮儀",b:`<ul class="li">
+  <li>路上禁菸，只能在吸菸區抽。</li>
+  <li>神社參拜：鳥居前鞠躬 → 手水舍洗手 → 投香油錢 → <b>二拜、二拍手、一拜</b>。</li>
+  <li>寺廟、神社有些地方禁止拍照，看告示。</li>
+  <li>錦市場、部分商店街禁止邊走邊吃；在店門口吃完再走。</li>
+  <li>飯店、民宿房間不能在床上吃東西弄髒；泡澡規矩看飯店說明。</li></ul>`},
+ {t:"緊急狀況",b:`<ul class="li">
+  <li>警察 <b>110</b>、救護車／消防 <b>119</b>。</li>
+  <li>JNTO 訪日外國人熱線（24 小時，有中文）：<b>050-3816-2787</b>。</li>
+  <li>東西掉了：去最近的派出所（交番）或車站服務處，說「忘れ物（わすれもの）」。</li>
+  <li>地震：手機會跳警報。躲桌子下、遠離窗戶，聽廣播；飯店門後有避難路線圖。</li>
+  <li>護照遺失：先報警拿遺失證明，再聯絡台北駐大阪經濟文化辦事處（出發前把電話存好）。</li></ul>`},
+ {t:"回程：神戶機場出境",b:`<ol class="li">
+  <li>起飛前 <b>2 小時</b>到第 2 航廈（13:15 起飛 → 11:15 前到）。</li>
+  <li><b class="shu">有退稅品 → 先到免稅手續機台掃護照（一定要在託運之前）</b>，紅色才需要給海關看東西。</li>
+  <li>星宇櫃台報到、託運。</li>
+  <li>安檢、出境審查。</li>
+  <li><b class="shu">日本的肉製品不能帶回台灣</b>（包括真空包裝、含肉泡麵），被查到罰很重。</li></ol>`}
+];
+
+const JP=[
+ ["すみません","sumimasen","不好意思／請問（叫店員、借過都用）"],
+ ["これください","kore kudasai","我要這個（手指菜單或商品）"],
+ ["二人です","futari desu","兩位（進餐廳時）"],
+ ["いくらですか","ikura desu ka","多少錢？"],
+ ["カードで払えますか","kādo de haraemasu ka","可以刷卡嗎？"],
+ ["免税でお願いします","menzei de onegaishimasu","我要辦免稅"],
+ ["トイレはどこですか","toire wa doko desu ka","廁所在哪裡？"],
+ ["〇〇駅はどこですか","〇〇 eki wa doko desu ka","〇〇站在哪裡？"],
+ ["予約しています","yoyaku shite imasu","我有訂位／訂房"],
+ ["温めてください","atatamete kudasai","請幫我微波"],
+ ["袋いりません","fukuro irimasen","不用袋子"],
+ ["ありがとうございます","arigatō gozaimasu","謝謝"]
+];
+
+const CHECK_DEFAULT=[
+ {c:"證件與預訂",items:["護照","機票（JX360、JX361）","Visit Japan Web QR Code 截圖","訂房確認（Comic&Books、Canvas）","旅平險＋旅遊不便險","訂位：1/10 New Babe","訂位：1/11 モリタ屋","訂位：1/12 鴨尽","訂位：1/14 神戶牛鐵板燒"]},
+ {c:"錢與網路",items:["日幣現金","信用卡（開好海外刷卡）","金融卡（開通跨國提款）","西瓜卡儲值","eSIM／Wi-Fi 機"]},
+ {c:"衣物",items:["保暖外套、發熱衣","好走的鞋","手套、圍巾、帽子","暖暖包"]},
+ {c:"電子",items:["手機充電線","行動電源（放隨身行李）","延長線（飯店插座少）"]},
+ {c:"盥洗與其他",items:["牙刷牙膏","保濕乳液、護唇膏","常備藥","塑膠袋（裝垃圾）","退稅品專用袋"]}
+];
+const CITIES=[
+ {n:"大阪",lat:34.6937,lon:135.5023,days:"1/9–1/13",jma:"270000"},
+ {n:"京都",lat:35.0116,lon:135.7681,days:"1/11",jma:"260000"},
+ {n:"奈良",lat:34.6851,lon:135.8048,days:"1/12",jma:"290000"},
+ {n:"神戶",lat:34.6901,lon:135.1955,days:"1/13–1/15",jma:"280000"}];
+const TRIP_DATES=["2027-01-09","2027-01-10","2027-01-11","2027-01-12","2027-01-13","2027-01-14","2027-01-15"];
+const NEARBY=[["拉麵","ラーメン"],["餐廳","レストラン"],["咖啡廳","カフェ"],["甜點","スイーツ"],["便利商店","コンビニ"],["超市","スーパー"],["藥妝店","ドラッグストア"],["唐吉訶德","ドン・キホーテ"],["廁所","トイレ"],["ATM","ATM"],["置物櫃","コインロッカー"],["車站","駅"]];
+
+/* ================= helpers ================= */
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const navUrl=(q,m)=>"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(q)+"&travelmode="+(m||"transit");
+const mapUrl=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+const LABEL={[HOTEL_OSAKA]:"Comic&Books",[HOTEL_KOBE]:"Canvas"};
+function routePts(i){const d=DAYS[i],pts=[];const add=(q,l)=>{if(q&&(!pts.length||pts[pts.length-1].q!==q))pts.push({q,l});};
+ const start=i===0?null:(i>=5?HOTEL_KOBE:HOTEL_OSAKA), end=i===DAYS.length-1?null:(i>=4?HOTEL_KOBE:HOTEL_OSAKA);
+ if(start)add(start,LABEL[start]); d.stops.forEach(s=>{if(!s.q)return;const h=LABEL[s.q];if(s.mv&&!h)return;add(s.q,h||s.n);}); if(end)add(end,LABEL[end]); return pts;}
+function routeUrls(p){const o=[];for(let k=0;k<p.length-1;k+=9)o.push("https://www.google.com/maps/dir/"+p.slice(k,k+10).map(x=>encodeURIComponent(x.q)).join("/"));return o;}
+const ICON={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18M5 9v11M19 9v11M2 5.5c3 1 17 1 20 0M9 9v4h6V9"/></svg>',
+ plan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="19" r="2"/><path d="M8 5h7a3.5 3.5 0 0 1 0 7H9a3.5 3.5 0 0 0 0 7h7"/></svg>',
+ guide:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11M8 8h6"/></svg>',
+ food:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 0 1-16 0zM9 7l2-4M14 7l3-3M8 20h8"/></svg>',
+ tool:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12h18"/></svg>',
+ nav:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>'};
+
+/* ================= illustration ================= */
+function seigaiha(y0,rows,w,col){let s="";const r=18;for(let row=0;row<rows;row++){const y=y0+row*9,off=row%2?r:0;for(let x=-r+off;x<w+r;x+=r*2){
+  s+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${col}" stroke="#f3ede1" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="${r*.68}" fill="none" stroke="#f3ede1" stroke-width="1.3"/><circle cx="${x}" cy="${y}" r="${r*.36}" fill="none" stroke="#f3ede1" stroke-width="1.2"/>`;}}return s;}
+function flakes(n,seed,h){let s=seed,o="";const r=()=>{s=(s*9301+49297)%233280;return s/233280;};for(let i=0;i<n;i++){o+=`<circle class="flake" cx="${(r()*400).toFixed(0)}" cy="0" r="${(1+r()*1.5).toFixed(1)}" fill="#fff" stroke="#c9cfd8" stroke-width=".4" style="animation-duration:${(8+r()*8).toFixed(1)}s;animation-delay:${(-r()*14).toFixed(1)}s"/>`;}return o;}
+function castle(x,y,sc,ink){return `<g transform="translate(${x},${y}) scale(${sc})">
+ <path d="M-60 0 L60 0 L50 -22 L-50 -22Z" fill="#8d8478"/><path d="M-50 -22 L50 -22" stroke="#6f675d" stroke-width="2"/>
+ <rect x="-36" y="-44" width="72" height="22" fill="#faf6ee"/><path d="M-48 -42 L48 -42 L36 -54 L-36 -54Z" fill="${ink}"/>
+ <rect x="-27" y="-68" width="54" height="15" fill="#faf6ee"/><path d="M-38 -66 L38 -66 L27 -78 L-27 -78Z" fill="${ink}"/>
+ <path d="M-10 -78 L0 -86 L10 -78Z" fill="${ink}"/>
+ <rect x="-18" y="-92" width="36" height="14" fill="#faf6ee"/><path d="M-29 -90 L29 -90 L19 -102 L-19 -102Z" fill="${ink}"/>
+ <rect x="-11" y="-114" width="22" height="12" fill="#faf6ee"/><path d="M-21 -112 L21 -112 L12 -126 L-12 -126Z" fill="${ink}"/>
+ <circle cx="-11" cy="-127" r="2.4" fill="#b08a4a"/><circle cx="11" cy="-127" r="2.4" fill="#b08a4a"/>
+ <g fill="#b08a4a"><rect x="-26" y="-38" width="7" height="6"/><rect x="-4" y="-38" width="7" height="6"/><rect x="18" y="-38" width="7" height="6"/><rect x="-15" y="-63" width="6" height="5"/><rect x="9" y="-63" width="6" height="5"/></g>
+ <path d="M-48 -42 L48 -42 M-38 -66 L38 -66 M-29 -90 L29 -90 M-21 -112 L21 -112" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></g>`;}
+function torii(x,y,sc){return `<g transform="translate(${x},${y}) scale(${sc})" fill="#b8402f"><path d="M-34 -66 Q0 -60 34 -66 L36 -58 Q0 -53 -36 -58Z"/><rect x="-28" y="-50" width="56" height="5"/><rect x="-24" y="-58" width="6" height="58"/><rect x="18" y="-58" width="6" height="58"/><rect x="-3" y="-56" width="6" height="8"/><path d="M-34 -66 Q0 -60 34 -66" stroke="#fff" stroke-width="1.6" fill="none"/></g>`;}
+function heroSvg(){return `<svg viewBox="0 0 400 300" role="img" aria-label="冬天的大阪城、鳥居與青海波">
+ <rect width="400" height="300" fill="#f3ede1"/>
+ <circle cx="150" cy="118" r="78" fill="#b8402f"/>
+ <g class="cloud" fill="#faf6ee" opacity=".9"><rect x="0" y="70" width="70" height="8" rx="4"/><rect x="18" y="82" width="56" height="8" rx="4"/></g>
+ <path d="M0 200 L60 160 L110 185 L170 140 L240 190 L300 165 L400 200 V300 H0Z" fill="#c9d1db"/>
+ ${castle(150,210,1,"#24406b")}
+ ${torii(330,212,.9)}
+ <path d="M0 208 Q100 196 200 210 T400 204 V300 H0Z" fill="#faf6ee"/>
+ <clipPath id="wv"><rect x="0" y="222" width="400" height="78"/></clipPath>
+ <g clip-path="url(#wv)">${seigaiha(230,9,400,"#24406b")}</g>
+ ${flakes(30,11)}
+ </svg>`;}
+
+/* ================= routing ================= */
+const NAV=[["home","首頁"],["plan","行程"],["guide","攻略"],["food","美食"],["tool","工具"]];
+const TOOLS=[["stay","住宿"],["budget","預算記帳"],["list","清單"],["weather","天氣"],["nearby","找附近"]];
+let lastDay=store.get("kj-lastday","day-1"), timer=null;
+function renderNav(cur){const n=document.getElementById("nav");
+ n.innerHTML=NAV.map(([k,l])=>`<button class="nb" type="button" data-k="${k}" aria-current="${cur===k?"page":"false"}">${ICON[k]}${l}</button>`).join("");
+ n.querySelectorAll(".nb").forEach(b=>b.onclick=()=>{const k=b.dataset.k;location.hash=k==="plan"?lastDay:k==="tool"?(store.get("kj-tool","stay")):k;});}
+function todayIdx(){const n=new Date();return(n.getFullYear()===2027&&n.getMonth()===0&&n.getDate()>=9&&n.getDate()<=15)?n.getDate()-9:-1;}
+function route(){
+ if(timer){clearInterval(timer);timer=null;}
+ let h=location.hash.replace("#","");
+ if(!h){const t=todayIdx();h=t>=0?DAYS[t].id:"home";}
+ const v=document.getElementById("view");
+ const di=DAYS.findIndex(d=>d.id===h);
+ if(di>=0){lastDay=h;store.set("kj-lastday",h);renderNav("plan");v.innerHTML=dayView(di);bindDay();window.scrollTo(0,0);return;}
+ if(TOOLS.some(t=>t[0]===h)){store.set("kj-tool",h);renderNav("tool");
+   const f={stay:stayView,budget:budgetView,list:listView,weather:weatherView,nearby:nearbyView}[h];
+   v.innerHTML=toolNav(h)+f();window.scrollTo(0,0);
+   if(h==="budget")bindBudget(); if(h==="list")bindList(); if(h==="weather")loadWeather(false); if(h==="nearby")bindNearby(); return;}
+ if(h==="guide"){renderNav("guide");v.innerHTML=guideView();window.scrollTo(0,0);bindGuide();return;}
+ if(h==="food"){renderNav("food");v.innerHTML=foodView();window.scrollTo(0,0);return;}
+ renderNav("home");v.innerHTML=homeView();window.scrollTo(0,0);startCount();
+}
+function toolNav(cur){return `<div class="sub">${TOOLS.map(([k,l])=>`<a href="#${k}" aria-current="${k===cur?"page":"false"}">${l}</a>`).join("")}</div>`;}
+
+/* ================= views ================= */
+const DEPART=new Date("2027-01-09T08:25:00+08:00");
+function startCount(){const tick=()=>{const el=document.getElementById("cd");if(!el)return;let ms=DEPART-new Date();
+ if(ms<=0){el.innerHTML=`<span class="small">旅程中</span>`;return;}
+ const d=Math.floor(ms/864e5),hh=Math.floor(ms%864e5/36e5),mm=Math.floor(ms%36e5/6e4);
+ el.innerHTML=`<span class="lb">出発まで</span><span class="u"><b>${d}</b><span>天</span></span><span class="u"><b>${hh}</b><span>時</span></span><span class="u"><b>${mm}</b><span>分</span></span>`;};tick();timer=setInterval(tick,20000);}
+function homeView(){const t=todayIdx();
+ return `<section class="hero">${heroSvg()}<div class="hanko">関西<br>冬旅</div><div class="vt"><div class="col"><span>大</span><span>阪</span><span>神</span><span>戸</span></div><div class="col s"><span>七</span><span>日</span><span>間</span><span>の</span><span>旅</span></div></div>
+  <div class="hero-info"><div><div class="en">KANSAI · WINTER 2027</div><div class="dates">1/9（六）— 1/15（五）</div><div class="small">2 人・大阪 4 晚＋神戶 2 晚</div></div><div class="cd" id="cd"></div></div></section>
+ <div class="card ai"><h3>航班 星宇航空</h3>
+  <div class="fl"><span class="no">去程</span><div class="pt">高雄 KHH<b>08:25</b></div><span class="ar">→</span><div class="pt">神戶 UKB<b>12:15</b></div></div>
+  <div class="fl"><span class="no">回程</span><div class="pt">神戶 UKB<b>13:15</b></div><span class="ar">→</span><div class="pt">高雄 KHH<b>16:00</b></div></div>
+  <p class="small" style="margin:6px 0 0">JX360／JX361。神戶機場國際線在<b>第 2 航廈</b>。時刻訂票前再確認。</p></div>
+ <h2 class="sec">七日行程</h2>
+ <div class="card" style="padding:6px 18px">${DAYS.map((d,i)=>`<a class="dl${i===t?" today":""}" href="#${d.id}"><span class="k">${KN[i]}日目<small>${d.d}</small></span><span><b>${esc(d.title)}</b><span>${esc(d.area)}</span></span><i>›</i></a>`).join("")}</div>
+ <h2 class="sec">出發前一定要做</h2>
+ <div class="card shu"><ol class="li">
+  <li>註冊 <b>Visit Japan Web</b>，拿到入境 QR Code。</li>
+  <li>西瓜卡先儲值，iPhone 錢包測試一次。</li>
+  <li>每人換 ¥30,000–40,000 現金，信用卡開海外刷卡。</li>
+  <li>買 eSIM／Wi-Fi 機、旅平險＋不便險。</li>
+  <li>訂位：1/10 New Babe、1/11 モリタ屋、1/12 鴨尽、1/14 神戶牛鐵板燒。</li></ol>
+  <a class="btn shu" href="#guide">看完整攻略</a> <a class="btn" href="#list">打開清單</a></div>
+ <p class="foot">票價與營業時間查詢於 2026 年 11 月，出發前一週再對照官網。</p>`;}
+
+function dayView(i){const d=DAYS[i],pts=routePts(i),urls=routeUrls(pts),h=d.stay?HOTELS[d.stay]:null;
+ return `<div class="days" role="tablist">${DAYS.map((x,j)=>`<button class="dp" role="tab" data-id="${x.id}" aria-selected="${j===i}">${KN[j]}日目<small>${x.d}（${x.w}）</small></button>`).join("")}</div>
+ <div class="dhead"><div class="stamp"><div><b>${KN[i]}</b><small>日目</small></div></div><div><h1>${esc(d.title)}</h1><p>${d.d}（${d.w}）・${esc(d.area)}</p></div></div>
+ <ol class="tl">${d.stops.map(s=>`<li class="${s.mv?"mv":""}"><div class="t">${esc(s.t)}</div><div class="b"><div class="n">${esc(s.n)}${s.chip?`<span class="chip">${esc(s.chip)}</span>`:""}</div>${s.note?`<div class="d">${s.note}</div>`:""}
+  ${s.q?`<a class="btn" href="${s.nav===false?mapUrl(s.q):navUrl(s.q,s.mode)}" target="_blank" rel="noopener">${ICON.nav}${s.nav===false?"地圖":"導航"}</a>`:""}</div></li>`).join("")}</ol>
+ <div class="card ai"><h3>今天怎麼搭</h3><ol class="how">${d.how.map(x=>`<li>${x}</li>`).join("")}</ol></div>
+ <div class="card"><h3>全天路線</h3><p class="small" style="margin:0">${pts.map(p=>esc(p.l)).join(" → ")}</p>
+  ${urls.map((u,k)=>`<a class="btn solid" href="${u}" target="_blank" rel="noopener">${ICON.nav}${urls.length>1?`路線第 ${k+1} 段`:"在 Google 地圖開啟"}</a>`).join(" ")}
+  <p class="small" style="margin:8px 0 0">多站路線只能用開車或步行，打開後切成「步行」看順序；搭電車請用上面各站的「導航」。</p></div>
+ <div class="card"><h3>注意</h3><ul class="li">${d.note.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+ <div class="card"><h3>吃什麼</h3><ul class="li">${d.food.map(f=>`<li><a href="${mapUrl(f.q)}" target="_blank" rel="noopener">${esc(f.n)}</a>　<span class="small">${esc(f.s)}</span></li>`).join("")}</ul></div>
+ <div class="card"><h3>下雨的話</h3><p style="margin:0">${esc(d.rain)}</p></div>
+ <div class="card"><h3>今晚住</h3>${h?`${esc(h.name)}<div class="small">${h.jp}</div><a class="btn" href="${navUrl(h.q,"transit")}" target="_blank" rel="noopener">${ICON.nav}導航回飯店</a>`:"回台灣"}</div>`;}
+function bindDay(){document.querySelectorAll(".dp").forEach(b=>b.onclick=()=>{location.hash=b.dataset.id;});const s=document.querySelector('.dp[aria-selected="true"]');if(s)s.scrollIntoView({inline:"center",block:"nearest"});}
+
+function guideView(){const open=store.get("kj-gopen",[0]);
+ return `<h1 class="ttl">攻略</h1><p class="lead">第一次出國照順序看。點標題展開。</p>
+ ${GUIDE.map((g,i)=>`<details class="g" data-i="${i}" ${open.includes(i)?"open":""}><summary><span class="no">${String(i+1).padStart(2,"0")}</span>${esc(g.t)}</summary><div class="gb">${g.b}</div></details>`).join("")}
+ <h2 class="sec">日文 12 句</h2><div class="card">${JP.map(([j,r,z])=>`<div class="jp"><b>${j}</b><span>${r}</span><em>${z}</em></div>`).join("")}</div>`;}
+function bindGuide(){document.querySelectorAll("details.g").forEach(d=>d.ontoggle=()=>{const s=[...document.querySelectorAll("details.g")].filter(x=>x.open).map(x=>+x.dataset.i);store.set("kj-gopen",s);});}
+
+function foodView(){return `<h1 class="ttl">美食</h1><p class="lead">營業時間、公休日出發前在 Google Maps 再確認。</p>
+ <div class="card ai"><h3>點餐小抄</h3><ul class="li"><li>門口有機器 → 先買食券。</li><li>指著菜單說「これください」。</li><li>結帳在門口櫃台。</li></ul></div>`+
+ DAYS.map((d,i)=>`<h2 class="sec">${KN[i]}日目・${d.d}</h2>`+d.food.map((f,j)=>`<div class="card"><span class="chip ${j===0?"shu":""}" style="margin:0">${j===0?"推薦":"備案"}・${esc(f.k)}</span><h3 style="margin-top:6px">${esc(f.n)}</h3><div class="small">${esc(f.s)}</div><a class="btn" href="${mapUrl(f.q)}" target="_blank" rel="noopener">Google Maps</a></div>`).join("")).join("");}
+
+function stayView(){return `<h1 class="ttl">住宿</h1>`+["osaka","kobe"].map(k=>{const h=HOTELS[k];return `<div class="card ai"><span class="small">${k==="osaka"?"大阪・心齋橋":"神戶・三宮"}</span><h3 style="font-size:18px">${esc(h.name)}</h3>
+ <table><tr><td class="muted">日期</td><td>${h.dates}</td></tr><tr><td class="muted">入住</td><td>${h.cin}</td></tr><tr><td class="muted">退房</td><td>${h.cout}</td></tr><tr><td class="muted">房型</td><td>${h.room}</td></tr><tr><td class="muted">價格</td><td>${h.price}</td></tr><tr><td class="muted">取消</td><td>${h.cancel}</td></tr><tr><td class="muted">地址</td><td style="font-family:var(--mincho);font-weight:700">${h.jp}</td></tr></table>
+ <ul class="li" style="margin-top:8px">${h.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+ <a class="btn solid" href="${navUrl(h.q,"transit")}" target="_blank" rel="noopener">${ICON.nav}導航</a> <a class="btn" href="${h.trip}" target="_blank" rel="noopener">訂房頁</a></div>`;}).join("")+
+ `<div class="card shu"><h3>給計程車司機看</h3>${["osaka","kobe"].map(k=>`<div class="small">${k==="osaka"?"大阪 Comic&amp;Books":"神戶 Canvas"}</div><p style="margin:2px 0 12px;font-family:var(--mincho);font-weight:800;font-size:20px;line-height:1.5">${HOTELS[k].jp}</p>`).join("")}<p class="small" style="margin:0">指著地址說「ここまでお願いします」（請到這裡）。</p></div>`;}
+
+const EST=[["交通","電車、地鐵、巴士、Port Liner",8000],["門票","大阪城、HARUKAS、奈良、港遊船",6500],["餐飲","每天約 ¥5,000＋壽喜燒、燒肉",45000],["神戶牛","鐵板燒一餐",12000]];
+function budgetView(){const rate=store.get("kj-rate",0.21),log=store.get("kj-log",[]);const estY=EST.reduce((a,b)=>a+b[2],0),spent=log.reduce((a,b)=>a+b.y,0);const nt=y=>Math.round(y*rate).toLocaleString();
+ return `<h1 class="ttl">預算記帳</h1><p class="lead">每人當地預算 NT$30,000（不含機票、住宿）。</p>
+ <div class="card"><h3>機票＋住宿（兩人）</h3><table><tr><td>機票 16,661 × 2</td><td class="r">NT$33,322</td></tr><tr><td>大阪 4 晚</td><td class="r">NT$9,038</td></tr><tr><td>神戶 2 晚</td><td class="r">NT$4,432</td></tr><tr class="sum"><td>合計（每人 23,396）</td><td class="r">NT$46,792</td></tr></table></div>
+ <div class="card"><h3>當地花費估算（每人）</h3><table class="est">${EST.map(e=>`<tr><td>${e[0]}</td><td class="small">${e[1]}</td><td class="r">¥${e[2].toLocaleString()}</td></tr>`).join("")}<tr class="sum"><td colspan="2">小計 約 NT$${nt(estY)}</td><td class="r">¥${estY.toLocaleString()}</td></tr></table>
+  <p class="small" style="margin:6px 0 0">剩約 NT$${(30000-Math.round(estY*rate)).toLocaleString()} 可以購物。</p>
+  <div class="addrow"><span class="small">匯率 1 日圓 =</span><input id="rate" type="number" step="0.001" inputmode="decimal" value="${rate}" style="max-width:90px"><span class="small">台幣</span></div></div>
+ <div class="card ai"><h3>記帳</h3><div class="addrow"><input id="bi" placeholder="項目"><input id="by" type="number" inputmode="numeric" placeholder="¥" style="max-width:90px"><button id="badd" type="button">記</button></div>
+  ${log.length?`<table style="margin-top:8px">${log.map((r,k)=>`<tr><td>${esc(r.n)}<div class="small">${esc(r.t)}</div></td><td class="r">¥${r.y.toLocaleString()}</td><td style="width:56px;text-align:right"><button class="del" data-k="${k}" type="button">刪</button></td></tr>`).join("")}<tr class="sum"><td>已花</td><td class="r">¥${spent.toLocaleString()}</td><td class="r small">NT$${nt(spent)}</td></tr></table>`:`<p class="small" style="margin:8px 0 0">記帳只存在這支手機。</p>`}</div>`;}
+function bindBudget(){const r=document.getElementById("rate");r.onchange=()=>{const v=parseFloat(r.value);if(v>0){store.set("kj-rate",v);route();}};
+ document.getElementById("badd").onclick=()=>{const n=document.getElementById("bi").value.trim(),y=parseInt(document.getElementById("by").value,10);if(!n||!(y>0))return;const log=store.get("kj-log",[]),now=new Date();log.unshift({n,y,t:`${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`});store.set("kj-log",log);route();};
+ document.querySelectorAll(".del[data-k]").forEach(b=>b.onclick=()=>{const log=store.get("kj-log",[]);log.splice(+b.dataset.k,1);store.set("kj-log",log);route();});}
+
+function getList(){return store.get("kj-list2",CHECK_DEFAULT.map(g=>({c:g.c,items:g.items.map(t=>({t,on:false}))})));}
+function listView(){const L=getList();return `<h1 class="ttl">清單</h1><p class="lead">打勾、刪除、新增都存在這支手機。</p>`+
+ L.map((g,gi)=>`<div class="card"><h3>${esc(g.c)}</h3>${g.items.map((it,ii)=>`<div class="ck${it.on?" on":""}"><input type="checkbox" id="c${gi}_${ii}" data-g="${gi}" data-i="${ii}" ${it.on?"checked":""}><label for="c${gi}_${ii}">${esc(it.t)}</label><button class="del" type="button" data-g="${gi}" data-i="${ii}">刪</button></div>`).join("")}
+ <div class="addrow"><input placeholder="新增項目" data-add="${gi}"><button type="button" data-addbtn="${gi}">加</button></div></div>`).join("")+`<p class="foot"><button class="del" type="button" id="reset">恢復預設清單</button></p>`;}
+function bindList(){const save=L=>{store.set("kj-list2",L);route();};
+ document.querySelectorAll('.ck input[type=checkbox]').forEach(c=>c.onchange=()=>{const L=getList();L[c.dataset.g].items[c.dataset.i].on=c.checked;store.set("kj-list2",L);c.closest(".ck").classList.toggle("on",c.checked);});
+ document.querySelectorAll('.ck .del').forEach(b=>b.onclick=()=>{const L=getList();L[b.dataset.g].items.splice(b.dataset.i,1);save(L);});
+ document.querySelectorAll('[data-addbtn]').forEach(b=>b.onclick=()=>{const g=b.dataset.addbtn,inp=document.querySelector(`[data-add="${g}"]`),t=inp.value.trim();if(!t)return;const L=getList();L[g].items.push({t,on:false});save(L);});
+ document.querySelectorAll('[data-add]').forEach(inp=>inp.onkeydown=e=>{if(e.key==="Enter")document.querySelector(`[data-addbtn="${inp.dataset.add}"]`).click();});
+ document.getElementById("reset").onclick=()=>{try{localStorage.removeItem("kj-list2");}catch(e){}route();};}
+
+const WMO=c=>c===0?"晴":c<=2?"晴時多雲":c===3?"陰":c<=48?"霧":c<=57?"毛毛雨":c<=67?"雨":c<=77?"雪":c<=82?"陣雨":c<=86?"陣雪":"雷雨";
+function weatherView(){return `<h1 class="ttl">天氣</h1><p class="lead">資料來自 Open-Meteo，約可預報 16 天內；太遠的日期顯示「尚無預報」。1 月關西氣溫約 3–9℃，晚上很冷。</p>
+ <div style="margin:0 18px"><button class="btn" type="button" id="wre">重新整理</button> <span class="small" id="wst"></span></div>
+ <div id="wbox">${CITIES.map(c=>`<div class="card"><h3>${c.n} <span class="small">${c.days}</span></h3><p class="small" style="margin:0">載入中…</p></div>`).join("")}</div>
+ <h2 class="sec">官方預報</h2><div class="card">${CITIES.map(c=>`<div style="padding:4px 0">${c.n}：<a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=${c.jma}" target="_blank" rel="noopener">日本氣象廳</a>・<a href="https://www.windy.com/${c.lat}/${c.lon}?${c.lat},${c.lon},10" target="_blank" rel="noopener">Windy</a></div>`).join("")}</div>`;}
+function drawWeather(data,ts,stale){const box=document.getElementById("wbox");if(!box)return;
+ box.innerHTML=CITIES.map((c,k)=>{const w=data[k];if(!w)return `<div class="card"><h3>${c.n}</h3><p class="small" style="margin:0">讀取失敗</p></div>`;const cur=w.current,D=w.daily;
+  const rows=TRIP_DATES.map(dt=>{const j=D.time.indexOf(dt),lb=dt.slice(5).replace("-","/");if(j<0)return `<div class="wrow"><span class="dt">${lb}</span><span class="muted" style="grid-column:span 2">尚無預報</span></div>`;
+   return `<div class="wrow"><span class="dt">${lb}</span><span>${WMO(D.weather_code[j])}</span><span>${Math.round(D.temperature_2m_min[j])}～${Math.round(D.temperature_2m_max[j])}℃・降水 ${D.precipitation_probability_max[j]??"–"}%</span></div>`;}).join("");
+  return `<div class="card"><h3>${c.n} <span class="small">${c.days}</span></h3><div style="margin-bottom:4px">現在 ${WMO(cur.weather_code)}・${Math.round(cur.temperature_2m)}℃・風 ${Math.round(cur.wind_speed_10m)} km/h</div>${rows}</div>`;}).join("");
+ const st=document.getElementById("wst");if(st){const t=new Date(ts);st.textContent=`${stale?"離線，上次資料・":""}更新 ${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`;}}
+function loadWeather(force){const b=document.getElementById("wre");if(b)b.onclick=()=>loadWeather(true);const cache=store.get("kj-weather",null);
+ if(cache&&!force&&Date.now()-cache.ts<30*60*1000){drawWeather(cache.data,cache.ts,false);return;}
+ const url=c=>`https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&current=temperature_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16`;
+ Promise.all(CITIES.map(c=>fetch(url(c)).then(r=>{if(!r.ok)throw 0;return r.json();}))).then(data=>{const ts=Date.now();store.set("kj-weather",{ts,data});drawWeather(data,ts,false);})
+ .catch(()=>{if(cache)drawWeather(cache.data,cache.ts,true);else{const box=document.getElementById("wbox");if(box)box.innerHTML=`<div class="card"><p style="margin:0">讀不到即時天氣（沒網路，或在不允許連線的預覽頁）。用下面的官方預報查。</p></div>`;}});}
+
+let pos=null;
+function nearUrl(t){return pos?`https://www.google.com/maps/search/${encodeURIComponent(t)}/@${pos.lat},${pos.lon},16z`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t)}`;}
+function nearbyView(){return `<h1 class="ttl">找附近</h1><p class="lead">按類別直接在 Google Maps 搜附近（用日文搜，結果比較多）。</p>
+ <div style="margin:0 18px"><button class="btn" type="button" id="geo">用目前位置</button> <span class="small" id="gst">${pos?"已定位":"沒定位也可以按，Google Maps 會自己抓位置"}</span></div>
+ <div class="near" id="near">${NEARBY.map(([z,j])=>`<a href="${nearUrl(j)}" target="_blank" rel="noopener" data-ja="${j}">${z}<small>${j}</small></a>`).join("")}</div>`;}
+function bindNearby(){document.getElementById("geo").onclick=()=>{const st=document.getElementById("gst");if(!navigator.geolocation){st.textContent="這裡無法定位，直接按類別";return;}st.textContent="定位中…";
+ navigator.geolocation.getCurrentPosition(p=>{pos={lat:p.coords.latitude.toFixed(5),lon:p.coords.longitude.toFixed(5)};st.textContent="已定位";document.querySelectorAll("#near a").forEach(a=>a.href=nearUrl(a.dataset.ja));},()=>{st.textContent="無法定位，直接按類別";},{enableHighAccuracy:true,timeout:10000});};}
+
+/* ================= boot ================= */
+if(window.__kjRoute)window.removeEventListener("hashchange",window.__kjRoute);
+window.__kjRoute=route;window.addEventListener("hashchange",route);route();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
+})();
+</script>
+</body>
+</html>
